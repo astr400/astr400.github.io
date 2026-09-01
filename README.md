@@ -28,7 +28,7 @@ Then open `http://localhost:8000/`.
 
 - `index.html` — landing page and recommended setup order
 - `toolchain_setup.html` — optional compiler toolchain
-- `setup.html` — Miniconda / Anaconda environment
+- `conda_setup.html` — Miniconda / Anaconda environment
 - `uv_setup.html` — uv workflow (alternative to Conda)
 - `editor_setup.html` — Jupyter and VS Code
 - `git_setup.html` — Git and GitHub

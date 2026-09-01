@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Conda setup — Astrophysics Setup Guide</title>
-    <meta name="description" content="Install Miniconda and create a Python 3.12 environment for astrophysics work." />
+    <meta name="description" content="Install Miniconda, create a Python 3.12 environment, and manage conda environments for astrophysics work." />
     <link rel="icon" href="assets/astro-mark.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="assets/site.css" />
   </head>
@@ -16,7 +16,7 @@
       </a>
       <nav class="nav" aria-label="Main navigation">
         <a href="index.html">Home</a>
-        <a href="setup.html" aria-current="page">Conda</a>
+        <a href="conda_setup.html" aria-current="page">Conda</a>
         <a href="toolchain_setup.html">Toolchain</a>
         <a href="uv_setup.html">uv</a>
         <a href="editor_setup.html">Editor</a>
@@ -69,6 +69,27 @@ conda init</code></pre>
         <pre><code>conda install -c conda-forge jupyterlab matplotlib numpy scipy pandas astropy</code></pre>
         <p>To leave the environment later:</p>
         <pre><code>conda deactivate</code></pre>
+      </section>
+
+      <section class="card">
+        <h2>4. Manage conda environments</h2>
+        <p>The active environment appears in your shell prompt, for example <code>(astro-python)</code>. You can also list environments; the current one is marked with <code>*</code>:</p>
+        <pre><code>conda env list</code></pre>
+        <p><code>conda info --envs</code> shows the same list.</p>
+        <p>Activate and deactivate an environment:</p>
+        <pre><code>conda activate astro-python
+conda deactivate</code></pre>
+        <p>List packages installed in the current environment:</p>
+        <pre><code>conda list</code></pre>
+        <p>Add another package later:</p>
+        <pre><code>conda install -c conda-forge package-name</code></pre>
+        <p>Export the current environment so someone else can recreate it:</p>
+        <pre><code>conda env export &gt; environment.yml</code></pre>
+        <p>Remove an environment. Deactivate it first if it is active. This deletes the whole environment, not a single package:</p>
+        <pre><code>conda deactivate
+conda env remove -n astro-python</code></pre>
+        <p><code>conda remove -n astro-python --all</code> does the same thing.</p>
+        <p>Official reference: <a href="https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html" target="_blank" rel="noreferrer">Managing environments</a>.</p>
       </section>
 
       <section class="card">
