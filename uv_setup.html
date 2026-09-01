@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>uv setup — Astrophysics Setup Guide</title>
+    <meta name="description" content="Guide to using uv for reproducible Python environments in astrophysics workflows." />
+    <link rel="icon" href="assets/astro-mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="assets/site.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="index.html">
+        <img src="assets/astro-mark.svg" alt="" />
+        <div class="brand-name">Astrophysics Setup Guide</div>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="setup.html">Conda</a>
+        <a href="toolchain_setup.html">Toolchain</a>
+        <a href="uv_setup.html" aria-current="page">uv</a>
+        <a href="editor_setup.html">Editor</a>
+        <a href="git_setup.html">Git</a>
+        <a href="project_workflow.html">Workflow</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="card">
+        <div class="pill">uv project template</div>
+        <h1>Using uv for astrophysics projects</h1>
+        <p>
+          uv is an alternative to Conda: a lightweight, reproducible Python environment for notebooks and analysis scripts. Use Python 3.12+, keep the project as an environment rather than a published library, and rely on <code>uv</code> for dependency management and execution.
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>Overview</h2>
+        <p>This pattern is designed for:</p>
+        <ul>
+          <li>Jupyter notebooks and exploratory analysis</li>
+          <li>Scientific computing with <code>astropy</code>, <code>scipy</code>, <code>numpy</code>, <code>sympy</code>, and <code>pandas</code></li>
+          <li>Plotting with <code>matplotlib</code></li>
+          <li>Reproducible workflows using <code>uv sync</code> and <code>uv run</code></li>
+          <li>Course or research repositories without packaging overhead</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>Install uv</h2>
+        <p>Install <code>uv</code> before creating a project environment. The official install guide is the <a href="https://docs.astral.sh/uv/getting-started/installation/" target="_blank" rel="noreferrer">Astral uv installation page</a>.</p>
+
+        <h3>macOS</h3>
+        <pre><code>brew install uv</code></pre>
+        <p>If you do not use Homebrew, the official installer also works:</p>
+        <pre><code>curl -LsSf https://astral.sh/uv/install.sh | sh</code></pre>
+
+        <h3>Linux</h3>
+        <pre><code>curl -LsSf https://astral.sh/uv/install.sh | sh</code></pre>
+        <p>After installation, open a new terminal or reload your shell so the <code>uv</code> command is in your PATH.</p>
+
+        <h3>Windows (WSL 2)</h3>
+        <p>Install uv inside your WSL 2 Linux environment rather than in PowerShell:</p>
+        <pre><code>curl -LsSf https://astral.sh/uv/install.sh | sh</code></pre>
+        <p>Then reopen the terminal and verify:</p>
+        <pre><code>uv --version</code></pre>
+      </section>
+
+      <section class="card">
+        <h2>Recommended layout</h2>
+        <pre class="copy-skip"><code>.
+├── data/
+├── notebooks/
+├── scripts/
+├── README.md
+├── pyproject.toml
+├── uv.lock
+└── .gitignore</code></pre>
+      </section>
+
+      <section class="card">
+        <h2>Quick start</h2>
+        <pre><code>uv init astro-template --python 3.12 --bare --no-readme
+cd astro-template
+uv add astropy ipykernel jupyterlab matplotlib pandas scipy sympy
+uv add --dev pytest ruff
+uv sync</code></pre>
+
+        <h3>Run notebooks</h3>
+        <pre><code>uv run jupyter lab</code></pre>
+
+        <h3>Run tests</h3>
+        <pre><code>uv run pytest</code></pre>
+
+        <h3>Lint the project</h3>
+        <pre><code>uv run ruff check .</code></pre>
+
+        <h3>Run a script</h3>
+        <pre><code>uv run python scripts/example.py</code></pre>
+      </section>
+
+      <section class="card">
+        <h2>VS Code kernel integration</h2>
+        <p>To make the environment available as a Jupyter kernel in VS Code:</p>
+        <pre><code>uv run python -m ipykernel install --user --name astro-template</code></pre>
+
+        <p>Then in VS Code:</p>
+        <ol>
+          <li>Open a notebook.</li>
+          <li>Click the kernel selector in the top-right corner.</li>
+          <li>Choose <code>astro-template</code> or select the project interpreter at <code>.venv/bin/python</code>.</li>
+          <li>Verify the kernel is correct with:</li>
+        </ol>
+
+        <pre><code>import sys
+print(sys.executable)</code></pre>
+
+        <p>This should point to the project-local environment, typically under <code>.venv/bin/python</code>.</p>
+      </section>
+
+      <section class="card">
+        <h2>Project configuration pattern</h2>
+        <p>A typical <code>pyproject.toml</code> for this workflow looks like:</p>
+        <pre class="copy-skip"><code>[project]
+requires-python = "&gt;=3.12"
+
+[dependency-groups]
+dev = [
+    "pytest&gt;=8.0.0",
+    "ruff&gt;=0.3.0",
+]
+
+[tool.uv]
+package = false</code></pre>
+
+        <p>This keeps the project as a managed environment rather than an installable package.</p>
+      </section>
+
+      <section class="card">
+        <h2>Verification checklist</h2>
+        <p>After setup, confirm the environment works with:</p>
+        <pre><code>uv sync
+uv run python -c "import astropy, matplotlib, pandas, scipy, sympy; print('ok')"
+uv run jupyter lab --version
+uv run pytest -q
+uv run ruff check .</code></pre>
+      </section>
+
+      <section class="card">
+        <h2>Notes</h2>
+        <ul>
+          <li>Prefer <code>uv run</code> over activating the virtual environment manually.</li>
+          <li>Keep runtime and development dependencies separated.</li>
+          <li>Use this pattern for coursework, labs, and data-analysis workflows rather than for publishing a library.</li>
+          <li>If a project needs more packages later, add them with <code>uv add package-name</code> and lock them with <code>uv sync</code>.</li>
+        </ul>
+      </section>
+
+      <nav class="card pager" aria-label="Guide sequence">
+        <a class="prev" href="toolchain_setup.html">Previous: Toolchain</a>
+        <a class="next" href="editor_setup.html">Next: Editor and Jupyter</a>
+      </nav>
+    </main>
+
+    <footer>
+      <p>Astrophysics Setup Guide</p>
+    </footer>
+    <script src="assets/site.js" defer></script>
+  </body>
+</html>

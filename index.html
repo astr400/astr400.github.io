@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Astrophysics Setup Guide</title>
+    <meta name="description" content="General astrophysics computing and environment setup guide for scientific Python, Git, and reproducible analysis workflows." />
+    <link rel="icon" href="assets/astro-mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="assets/site.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="index.html">
+        <img src="assets/astro-mark.svg" alt="" />
+        <div class="brand-name">Astrophysics Setup Guide</div>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="index.html" aria-current="page">Home</a>
+        <a href="setup.html">Conda</a>
+        <a href="toolchain_setup.html">Toolchain</a>
+        <a href="uv_setup.html">uv</a>
+        <a href="editor_setup.html">Editor</a>
+        <a href="git_setup.html">Git</a>
+        <a href="project_workflow.html">Workflow</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="pill">Computational astrophysics</div>
+        <h1>Astrophysics setup guide</h1>
+        <p>
+          A practical starting point for students, researchers, and hobbyists working with Python, notebooks, Git, and reproducible analysis. Follow the numbered path below, or skip to the environment manager you already use.
+        </p>
+      </section>
+
+      <div class="grid">
+        <article class="card">
+          <h2><span class="step-num">1</span>Toolchain (optional)</h2>
+          <p>Install compilers if you will build scientific packages with native extensions.</p>
+          <p><a href="toolchain_setup.html">Toolchain setup</a></p>
+        </article>
+
+        <article class="card">
+          <h2><span class="step-num">2</span>Python environment</h2>
+          <p>Create a dedicated Python 3.12 environment. Conda is the default path; uv is a faster alternative.</p>
+          <ul>
+            <li><a href="setup.html">Miniconda / Anaconda</a></li>
+            <li><a href="uv_setup.html">uv workflow</a></li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h2><span class="step-num">3</span>Editor and Jupyter</h2>
+          <p>Use notebooks for exploration and VS Code for scripts and larger projects.</p>
+          <p><a href="editor_setup.html">Jupyter and VS Code</a></p>
+        </article>
+
+        <article class="card">
+          <h2><span class="step-num">4</span>Git</h2>
+          <p>Install Git, set your identity, and connect to GitHub.</p>
+          <p><a href="git_setup.html">Git and GitHub setup</a></p>
+        </article>
+
+        <article class="card">
+          <h2><span class="step-num">5</span>Project workflow</h2>
+          <p>Keep data, notebooks, scripts, and results organized and reproducible.</p>
+          <p><a href="project_workflow.html">Recommended layout and cycle</a></p>
+        </article>
+      </div>
+
+      <section class="card resources">
+        <h2>Useful resources</h2>
+        <ul>
+          <li><a href="https://docs.python.org/3/tutorial/" target="_blank" rel="noreferrer">Python documentation</a></li>
+          <li><a href="https://jupyter.org/" target="_blank" rel="noreferrer">Jupyter</a></li>
+          <li><a href="https://git-scm.com/doc" target="_blank" rel="noreferrer">Git documentation</a></li>
+          <li><a href="https://pythonnumericalmethods.studentorg.berkeley.edu" target="_blank" rel="noreferrer">Python Numerical Methods</a></li>
+        </ul>
+      </section>
+    </main>
+
+    <footer>
+      <p>Astrophysics Setup Guide</p>
+    </footer>
+    <script src="assets/site.js" defer></script>
+  </body>
+</html>

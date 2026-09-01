@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Toolchain setup — Astrophysics Setup Guide</title>
+    <meta name="description" content="Install the system compiler tools needed for scientific Python and astrophysics work on macOS, Linux, and Windows." />
+    <link rel="icon" href="assets/astro-mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="assets/site.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="index.html">
+        <img src="assets/astro-mark.svg" alt="" />
+        <div class="brand-name">Astrophysics Setup Guide</div>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="setup.html">Conda</a>
+        <a href="toolchain_setup.html" aria-current="page">Toolchain</a>
+        <a href="uv_setup.html">uv</a>
+        <a href="editor_setup.html">Editor</a>
+        <a href="git_setup.html">Git</a>
+        <a href="project_workflow.html">Workflow</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="card">
+        <div class="pill">Compiler setup</div>
+        <h1>Toolchain setup for scientific Python</h1>
+        <p>
+          Some scientific Python packages, especially those with compiled extensions, need a working C/C++ toolchain. Install the compiler tools for your operating system before building packages. Skip this page if you only install pre-built wheels and never compile extensions.
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>macOS</h2>
+        <p>Install Xcode Command Line Tools, or the full Xcode developer environment from <a href="https://developer.apple.com/xcode/" target="_blank" rel="noreferrer">Apple</a>:</p>
+        <pre><code>xcode-select --install</code></pre>
+      </section>
+
+      <section class="card">
+        <h2>Linux</h2>
+        <p>On Ubuntu or Debian-based systems, install the base build tools:</p>
+        <pre><code>sudo apt update
+sudo apt install build-essential</code></pre>
+      </section>
+
+      <section class="card">
+        <h2>Windows</h2>
+        <p>Use WSL 2 with Ubuntu or another supported Linux distribution, then install the Linux build tools inside the WSL terminal. See the <a href="https://learn.microsoft.com/en-us/windows/wsl/install" target="_blank" rel="noreferrer">WSL installation guide</a>.</p>
+        <pre><code>sudo apt update
+sudo apt install build-essential</code></pre>
+      </section>
+
+      <section class="card">
+        <h2>Why this matters</h2>
+        <ul>
+          <li>Some Python packages compile native code for speed or numerical performance.</li>
+          <li>Compilers are often required for data analysis and scientific computing libraries.</li>
+          <li>Installing the toolchain early avoids later build errors.</li>
+        </ul>
+      </section>
+
+      <nav class="card pager" aria-label="Guide sequence">
+        <a class="prev" href="index.html">Previous: Home</a>
+        <a class="next" href="setup.html">Next: Conda environment</a>
+      </nav>
+      <p class="note">Choosing uv instead of Conda? Continue to <a href="uv_setup.html">uv setup</a> after this page.</p>
+    </main>
+
+    <footer>
+      <p>Astrophysics Setup Guide</p>
+    </footer>
+    <script src="assets/site.js" defer></script>
+  </body>
+</html>

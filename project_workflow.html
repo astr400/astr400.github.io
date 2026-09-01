@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project workflow — Astrophysics Setup Guide</title>
+    <meta name="description" content="Recommended project workflow for astrophysics coding and analysis with Python, notebooks, Git, and reproducible practices." />
+    <link rel="icon" href="assets/astro-mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="assets/site.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="index.html">
+        <img src="assets/astro-mark.svg" alt="" />
+        <div class="brand-name">Astrophysics Setup Guide</div>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="setup.html">Conda</a>
+        <a href="toolchain_setup.html">Toolchain</a>
+        <a href="uv_setup.html">uv</a>
+        <a href="editor_setup.html">Editor</a>
+        <a href="git_setup.html">Git</a>
+        <a href="project_workflow.html" aria-current="page">Workflow</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="card">
+        <div class="pill">Project structure</div>
+        <h1>Project workflow for astrophysics analysis</h1>
+        <p>
+          A good project workflow keeps your data, code, notebooks, and results organized while making it easier to share and reproduce work.
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>Recommended layout</h2>
+        <pre class="copy-skip"><code>project/
+├── notebooks/
+├── scripts/
+├── data/
+├── results/
+├── README.md
+├── .gitignore
+├── environment.yml   # or pyproject.toml / uv.lock
+└── .venv/
+</code></pre>
+      </section>
+
+      <section class="card">
+        <h2>Good habits</h2>
+        <ul>
+          <li>Use notebooks for exploration and figures</li>
+          <li>Move reusable code into scripts or modules</li>
+          <li>Record dependencies and environment setup in a reproducible format</li>
+          <li>Commit often and push to GitHub before sharing</li>
+          <li>Document assumptions, data sources, and processing steps</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>Typical cycle</h2>
+        <ol>
+          <li>Create or activate the project environment</li>
+          <li>Open the notebook or script in VS Code</li>
+          <li>Run analysis and generate figures</li>
+          <li>Move cleaned-up logic into a script or module</li>
+          <li>Commit the updates and push them to GitHub</li>
+        </ol>
+      </section>
+
+      <nav class="card pager" aria-label="Guide sequence">
+        <a class="prev" href="git_setup.html">Previous: Git</a>
+        <a class="next" href="index.html">Back to Home</a>
+      </nav>
+    </main>
+
+    <footer>
+      <p>Astrophysics Setup Guide</p>
+    </footer>
+    <script src="assets/site.js" defer></script>
+  </body>
+</html>
