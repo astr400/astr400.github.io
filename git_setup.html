@@ -66,10 +66,20 @@ git config --global init.defaultBranch main</code></pre>
       </section>
 
       <section class="card">
-        <h2>4. Create a GitHub account</h2>
+        <h2>4. Create a GitHub account and add an SSH key</h2>
         <p>Create a free account at <a href="https://github.com/" target="_blank" rel="noreferrer">GitHub</a>.</p>
-        <p>For command-line access, use SSH keys instead of a password:</p>
+        <p>For command-line access, use SSH keys instead of a password. On your machine, generate an SSH key pair:</p>
+        <pre><code>ssh-keygen -t ed25519 -C "your_email@example.com"</code></pre>
+        <p>Press Enter to accept the default file location, and choose a secure passphrase if prompted.</p>
+        <p>Start the SSH agent and add the key:</p>
+        <pre><code>eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519</code></pre>
+        <p>Copy the public key to your clipboard:</p>
+        <pre><code>cat ~/.ssh/id_ed25519.pub</code></pre>
+        <p>Then in GitHub, open <strong>Settings</strong> → <strong>SSH and GPG keys</strong> → <strong>New SSH key</strong>, paste the key, and save it.</p>
+        <p>Finally, test the connection:</p>
         <pre><code>ssh -T git@github.com</code></pre>
+        <p>If you are on Windows, run these steps in Git Bash or inside WSL 2 so the SSH agent and key files behave correctly.</p>
       </section>
 
       <section class="card">
