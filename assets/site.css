@@ -88,9 +88,10 @@ main {
 }
 
 .hero h1 {
-  margin-top: 0.25rem;
+  margin-top: 0;
   margin-bottom: 0.5rem;
   font-size: clamp(2rem, 4vw, 3rem);
+  color: #ffffff;
 }
 
 .hero p {
