@@ -56,7 +56,9 @@ def create_page(section: str, slug: str, root: Path | None = None) -> Path:
             "Add a collections entry in _config.yml before creating a new section."
         )
 
-    path = base / f"_{section}" / f"{slug}.md"
+    section_dir = base / f"_{section}"
+    section_dir.mkdir(exist_ok=True)
+    path = section_dir / f"{slug}.md"
     if path.exists():
         raise FileExistsError(f"page already exists: {path.relative_to(base)}")
 

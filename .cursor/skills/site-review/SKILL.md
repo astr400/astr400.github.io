@@ -16,7 +16,7 @@ Run it before every pull request. It uses only the Python standard library, so i
 ## Protocol
 
 1. Run the script. Fix every reported failure; do not suppress one.
-2. If the layouts or `_config.yml` changed, also build locally (`bundle exec jekyll build`) and confirm the topbar, landing-page grid, and pagers still render.
+2. If the layouts or `_config.yml` changed, also build locally (`bundle exec jekyll build`) and confirm the topbar hubs, home catalog, section hubs, and pagers still render.
 3. Report results as a table with one row per check and a result of `pass`, `fail`, or `n/a`.
 
 ## Failure classes
@@ -24,7 +24,7 @@ Run it before every pull request. It uses only the Python standard library, so i
 | Failure | Meaning | Fix |
 | --- | --- | --- |
 | Missing frontmatter key | The page breaks the contract | Add the key from [`STYLE.md`](../../../STYLE.md) |
-| Duplicate `order` | Two pages claim one topbar slot | Renumber the later pages in that section |
+| Duplicate `order` | Two pages in the same section share one sequence slot | Renumber the later pages in that section |
 | Step has no primary | No page in the step carries `step_title` | Give the main-path page `step_title` and `summary` |
 | Raw HTML in content | The old error-prone pattern returning | Move the markup into a layout or a frontmatter key |
 | Broken internal link | Target page or asset does not exist | Use the published path with a trailing slash |

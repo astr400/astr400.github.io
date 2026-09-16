@@ -1,0 +1,27 @@
+{%- comment -%}
+One landing or hub card per `step`. The page with `step_title` owns the card;
+pages that share the step become extra links inside it. Pass the collection
+name as `collection`, not the document drop (Jekyll 3 include params are
+string-safe that way).
+{%- endcomment -%}
+{%- assign guides = site[include.collection] | sort: "order" -%}
+<div class="grid">
+  {%- for guide in guides %}
+  {%- if guide.step_title %}
+  {%- assign siblings = guides | where: "step", guide.step %}
+  <article class="card">
+    <h2><span class="step-num">{{ guide.step }}</span>{{ guide.step_title }}</h2>
+    <p>{{ guide.summary }}</p>
+    {%- if siblings.size > 1 %}
+    <ul>
+      {%- for sibling in siblings %}
+      <li><a href="{{ sibling.url | relative_url }}">{{ sibling.link_text }}</a></li>
+      {%- endfor %}
+    </ul>
+    {%- else %}
+    <p><a href="{{ guide.url | relative_url }}">{{ guide.link_text }}</a></p>
+    {%- endif %}
+  </article>
+  {%- endif %}
+  {%- endfor %}
+</div>

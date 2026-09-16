@@ -1,0 +1,7 @@
+items:
+  - name: Home
+    url: /
+  - name: Setup
+    url: /setup/
+  - name: Use
+    url: /use/
