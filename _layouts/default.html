@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% if page.home %}{{ site.title }}{% else %}{{ page.short_title | default: page.title }} — {{ site.title }}{% endif %}</title>
-    <link rel="icon" href="{{ '/assets/astro-mark.svg' | relative_url }}" type="image/svg+xml" />
+    <link rel="icon" href="{{ '/assets/logo.png' | relative_url }}" type="image/png" />
     <link rel="stylesheet" href="{{ '/assets/site.css' | relative_url }}" />
     {% seo title=false %}
   </head>
@@ -13,7 +13,7 @@
 
     <header class="topbar">
       <a class="brand" href="{{ '/' | relative_url }}">
-        <img src="{{ '/assets/astro-mark.svg' | relative_url }}" alt="" />
+        <img src="{{ '/assets/logo.png' | relative_url }}" alt="" />
         <div class="brand-name">{{ site.title }}</div>
       </a>
       <nav class="nav" aria-label="Main navigation">
@@ -66,6 +66,7 @@
 
     <footer>
       <p>{{ site.title }}</p>
+      <p class="credit">Sky photograph: NASA/JPL-Caltech (Spitzer). Public domain.</p>
     </footer>
     <script src="{{ '/assets/site.js' | relative_url }}" defer></script>
   </body>

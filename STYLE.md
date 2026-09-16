@@ -90,7 +90,7 @@ Number headings (`## 1. Install Git`) when the page is a sequence to follow, and
 
 ## Design
 
-[`assets/site.css`](assets/site.css) is the existing design and is not being restyled. Available classes are `card`, `hero`, `grid`, `pill`, `step-num`, `pager`, `note`, and `resources`; the layouts apply them. Content files never reference a class.
+The published look is a dark night-sky theme in [`assets/site.css`](assets/site.css): navy and gold on `#0b1220`, with [`assets/logo.png`](assets/logo.png) as the brand mark. A NASA/JPL-Caltech Spitzer photograph of the galactic centre ([`assets/milky-way.jpg`](assets/milky-way.jpg)) appears in the home hero and as a faint page wash. Body copy, headings, lists, and code stay on opaque `card` surfaces so the photo never carries reading text. Available classes are `card`, `hero`, `grid`, `pill`, `step-num`, `pager`, `note`, and `resources`; the layouts apply them. Content files never reference a class.
 
 Fence directory trees and config samples as `text` so they get no copy button. Fence runnable commands as `bash` so they do.
 

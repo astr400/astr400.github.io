@@ -5,6 +5,7 @@ description: >-
 url: https://astr400.github.io
 baseurl: ""
 lang: en
+logo: /assets/logo.png
 
 markdown: kramdown
 kramdown:
