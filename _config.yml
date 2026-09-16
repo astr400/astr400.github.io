@@ -1,0 +1,47 @@
+title: Astrophysics Setup Guide
+description: >-
+  General astrophysics computing and environment setup guide for scientific
+  Python, Git, and reproducible analysis workflows.
+url: https://astr400.github.io
+baseurl: ""
+lang: en
+
+markdown: kramdown
+kramdown:
+  input: GFM
+
+# GitHub Pages forces the Rouge highlighter and ignores any attempt to disable
+# it, so code blocks build as .language-<lang> wrappers around <pre>. That is
+# fine here: assets/site.css deliberately ships no Rouge colour theme, so tokens
+# inherit the body colour and blocks keep the plain look the design expects.
+
+plugins:
+  - jekyll-redirect-from
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Each topic area is a collection. Adding a section means adding an entry here
+# and a directory of Markdown; no layout or content file needs to change.
+collections:
+  setup:
+    output: true
+    permalink: /setup/:name/
+
+defaults:
+  - scope:
+      path: ""
+      type: setup
+    values:
+      layout: guide
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - README.md
+  - AGENTS.md
+  - STYLE.md
+  - MARKDOWN.md
+  - background
+  - scripts
+  - .tmp

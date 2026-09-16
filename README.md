@@ -1,42 +1,72 @@
 # Astrophysics Setup Guide
 
-This repository hosts a static site for astrophysics computing setup, environment management, and project workflows.
+Source for [astr400.github.io](https://astr400.github.io/): a static site of astrophysics computing setup, environment management, and project workflow guides.
 
-## GitHub Pages deployment
+Content is Markdown. The only HTML in the repo is two Jekyll layouts. Agent map: [`AGENTS.md`](AGENTS.md). House style: [`STYLE.md`](STYLE.md). Markdown dialect: [`MARKDOWN.md`](MARKDOWN.md).
 
-To publish the site with a GitHub Pages repository:
+## Structure
 
-1. Create a repository named `your-username.github.io` for a personal page or `your-org.github.io` for an organization page.
-2. Push the contents of this repository to the main branch.
-3. Open the repository settings, then go to Pages.
-4. Set the source to the root of the `main` branch, or to the `docs/` folder if you copy the site there.
-5. Save the settings. GitHub will publish the site at:
-   - `https://your-username.github.io/`
-   - or `https://your-org.github.io/`
+```text
+.
+├── index.md              # landing page
+├── _setup/               # the setup-guide section, one Markdown file per page
+├── _layouts/             # the only HTML: default.html and guide.html
+├── _data/resources.yml   # landing-page link list
+├── assets/               # site.css, site.js, branding
+├── background/           # frozen upstream source (locked, not published)
+└── scripts/              # new_page.py and check_site.py
+```
+
+Each page's frontmatter carries what used to be hand-copied HTML: the badge, the
+nav label, its position in the sequence, and its landing-page card text. The
+topbar, the numbered step grid, and the prev/next pagers are all generated from
+those fields, so they cannot drift out of sync.
+
+## Editing content
+
+Edit the Markdown in `_setup/`. Every `##` heading becomes one card on the page;
+fence runnable commands as `bash` to get a copy button, and directory trees as
+`text` to skip it. Never put HTML in a content file — see [`MARKDOWN.md`](MARKDOWN.md).
+
+Add a page:
+
+```bash
+python3 scripts/new_page.py setup <slug>
+```
+
+Check content before opening a pull request:
+
+```bash
+python3 scripts/check_site.py
+```
+
+Both scripts use only the Python standard library, so they need no setup.
 
 ## Local preview
 
-From the project root, run:
+Optional; CI builds the site regardless. Needs Ruby with a user-local bundler,
+never `sudo`:
 
 ```bash
-python3 -m http.server 8000
+gem install --user-install bundler
+bundle install
+bundle exec jekyll serve
 ```
 
-Then open `http://localhost:8000/`.
+Then open `http://localhost:4000/`. The [`Gemfile`](Gemfile) pins the same
+`github-pages` gem the deployment uses, so local output matches production.
 
-## Site structure
+## Deployment
 
-- `index.html` — landing page and recommended setup order
-- `toolchain_setup.html` — optional compiler toolchain
-- `conda_setup.html` — Miniconda / Anaconda environment
-- `uv_setup.html` — uv workflow (alternative to Conda)
-- `editor_setup.html` — Jupyter and VS Code
-- `git_setup.html` — Git and GitHub
-- `project_workflow.html` — project layout and habits
-- `assets/` — shared CSS, JavaScript, and branding
+Pushing to `main` runs [`.github/workflows/pages.yml`](.github/workflows/pages.yml),
+which checks content, builds with `actions/jekyll-build-pages`, and deploys the
+artifact. Pull requests build and check without publishing.
 
-## Notes
+The repository's Pages source must be set to **GitHub Actions** under
+Settings then Pages. No generated HTML is committed.
 
-- This site is intentionally static and easy to deploy as a simple GitHub Pages project.
-- All page assets are local to the repository so the site remains self-contained and link-safe.
-- The repository does not depend on any missing legacy templates or external branding.
+## URLs
+
+Pages are sectioned, for example `/setup/conda/`. Every URL the site published as
+hand-written HTML still resolves: each page lists its old path in `redirect_from`,
+and `check_site.py` fails if one is dropped.

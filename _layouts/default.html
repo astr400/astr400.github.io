@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: 'en' }}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% if page.home %}{{ site.title }}{% else %}{{ page.short_title | default: page.title }} — {{ site.title }}{% endif %}</title>
+    <link rel="icon" href="{{ '/assets/astro-mark.svg' | relative_url }}" type="image/svg+xml" />
+    <link rel="stylesheet" href="{{ '/assets/site.css' | relative_url }}" />
+    {% seo title=false %}
+  </head>
+  <body>
+    {% assign guides = site.setup | sort: "order" %}
+
+    <header class="topbar">
+      <a class="brand" href="{{ '/' | relative_url }}">
+        <img src="{{ '/assets/astro-mark.svg' | relative_url }}" alt="" />
+        <div class="brand-name">{{ site.title }}</div>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="{{ '/' | relative_url }}"{% if page.home %} aria-current="page"{% endif %}>Home</a>
+        {%- for guide in guides %}
+        <a href="{{ guide.url | relative_url }}"{% if guide.url == page.url %} aria-current="page"{% endif %}>{{ guide.nav }}</a>
+        {%- endfor %}
+      </nav>
+    </header>
+
+    <main>
+      {%- if page.home %}
+      <section class="hero">
+        {{ content }}
+      </section>
+
+      <div class="grid">
+        {%- for guide in guides %}
+        {%- if guide.step_title %}
+        {%- assign siblings = guides | where: "step", guide.step %}
+        <article class="card">
+          <h2><span class="step-num">{{ guide.step }}</span>{{ guide.step_title }}</h2>
+          <p>{{ guide.summary }}</p>
+          {%- if siblings.size > 1 %}
+          <ul>
+            {%- for sibling in siblings %}
+            <li><a href="{{ sibling.url | relative_url }}">{{ sibling.link_text }}</a></li>
+            {%- endfor %}
+          </ul>
+          {%- else %}
+          <p><a href="{{ guide.url | relative_url }}">{{ guide.link_text }}</a></p>
+          {%- endif %}
+        </article>
+        {%- endif %}
+        {%- endfor %}
+      </div>
+
+      <section class="card resources">
+        <h2>{{ site.data.resources.heading }}</h2>
+        <ul>
+          {%- for link in site.data.resources.links %}
+          <li><a href="{{ link.url }}" target="_blank" rel="noreferrer">{{ link.name }}</a></li>
+          {%- endfor %}
+        </ul>
+      </section>
+      {%- else %}
+      {{ content }}
+      {%- endif %}
+    </main>
+
+    <footer>
+      <p>{{ site.title }}</p>
+    </footer>
+    <script src="{{ '/assets/site.js' | relative_url }}" defer></script>
+  </body>
+</html>

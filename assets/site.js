@@ -73,10 +73,16 @@
     });
   }
 
+  // Blocks fenced as `text` are directory trees and config samples rather than
+  // runnable commands, so they get no copy button. Both selectors are needed:
+  // kramdown puts the language class on the <code>, Rouge on a wrapper <div>.
+  function isCopyable(pre) {
+    return !pre.querySelector("code.language-text") && !pre.closest(".language-text");
+  }
+
   document.querySelectorAll("pre").forEach(function (pre) {
-    if (pre.classList.contains("copy-skip") || pre.closest(".copy-skip")) {
-      return;
+    if (isCopyable(pre)) {
+      enhance(pre);
     }
-    enhance(pre);
   });
 })();

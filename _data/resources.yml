@@ -1,0 +1,11 @@
+heading: Useful resources
+
+links:
+  - name: Python documentation
+    url: https://docs.python.org/3/tutorial/
+  - name: Jupyter
+    url: https://jupyter.org/
+  - name: Git documentation
+    url: https://git-scm.com/doc
+  - name: Python Numerical Methods
+    url: https://pythonnumericalmethods.studentorg.berkeley.edu
