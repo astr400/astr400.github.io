@@ -29,7 +29,7 @@ Content files contain **zero** HTML tags. This is the whole point of the refacto
 
 ## Code fences
 
-Always fence, always label the language. The label is not decoration — it decides whether the block gets a copy button.
+Always fence, always label the language. The label is not decoration — it becomes a `.language-<lang>` class on the built block, which decides whether the block gets a copy button.
 
 | Fence | Use | Copy button |
 | --- | --- | --- |

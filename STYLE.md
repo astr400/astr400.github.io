@@ -94,6 +94,8 @@ Number headings (`## 1. Install Git`) when the page is a sequence to follow, and
 
 Fence directory trees and config samples as `text` so they get no copy button. Fence runnable commands as `bash` so they do.
 
+GitHub Pages forces the Rouge highlighter on, so a fenced block builds as a `.language-<lang>` wrapper around the `<pre>`. [`assets/site.css`](assets/site.css) ships no Rouge colour theme on purpose, so tokens inherit the body colour and code blocks stay plain. Do not add one without deciding that syntax colours are wanted site-wide.
+
 ## Adding a section
 
 1. Add a `collections` entry with `output: true` and `permalink: /<name>/:name/` in [`_config.yml`](_config.yml).

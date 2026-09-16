@@ -9,10 +9,11 @@ lang: en
 markdown: kramdown
 kramdown:
   input: GFM
-  # Disabled on purpose. Rouge wraps code in extra divs and token spans, which
-  # assets/site.css does not style; plain <pre><code> matches the design and
-  # keeps the copy-button selector in assets/site.js simple.
-  syntax_highlighter: ~
+
+# GitHub Pages forces the Rouge highlighter and ignores any attempt to disable
+# it, so code blocks build as .language-<lang> wrappers around <pre>. That is
+# fine here: assets/site.css deliberately ships no Rouge colour theme, so tokens
+# inherit the body colour and blocks keep the plain look the design expects.
 
 plugins:
   - jekyll-redirect-from
