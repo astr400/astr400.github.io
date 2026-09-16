@@ -42,6 +42,5 @@ exclude:
   - AGENTS.md
   - STYLE.md
   - MARKDOWN.md
-  - background
   - scripts
   - .tmp

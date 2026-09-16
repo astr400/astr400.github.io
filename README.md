@@ -13,7 +13,6 @@ Content is Markdown. The only HTML in the repo is two Jekyll layouts. Agent map:
 ├── _layouts/             # the only HTML: default.html and guide.html
 ├── _data/resources.yml   # landing-page link list
 ├── assets/               # site.css, site.js, branding
-├── background/           # frozen upstream source (locked, not published)
 └── scripts/              # new_page.py and check_site.py
 ```
 

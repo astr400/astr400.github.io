@@ -35,4 +35,3 @@ Run it before every pull request. It uses only the Python standard library, so i
 
 - Edit the check script to make a failure disappear.
 - Skip the local build after a layout change; the script checks content, not Liquid.
-- Review content against a locked tree by editing it ([`AGENTS.md`](../../../AGENTS.md)); read-only review is allowed.
