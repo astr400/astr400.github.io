@@ -1,0 +1,47 @@
+---
+layout: default
+---
+{%- comment -%}
+Cards are generated here rather than written by hand, so guide pages stay pure
+Markdown. Each `## Heading` section becomes one `section.card`; everything
+before the first heading is the intro that shares a card with the title.
+{%- endcomment -%}
+{%- assign parts = content | split: '<h2' -%}
+{%- assign intro = parts | first -%}
+
+<section class="card">
+  <div class="pill">{{ page.pill }}</div>
+  <h1>{{ page.title }}</h1>
+  {{ intro }}
+</section>
+
+{%- for section in parts offset: 1 %}
+<section class="card"><h2{{ section }}</section>
+{%- endfor %}
+
+{%- comment -%}
+The pager walks the numbered `step` sequence and always targets the `main`
+branch, so the alternate uv page rejoins the path at the following step.
+{%- endcomment -%}
+{%- assign guides = site.setup | sort: "order" -%}
+{%- assign prev_step = page.step | minus: 1 -%}
+{%- assign next_step = page.step | plus: 1 -%}
+{%- assign prev_page = guides | where: "step", prev_step | where: "branch", "main" | first -%}
+{%- assign next_page = guides | where: "step", next_step | where: "branch", "main" | first %}
+
+<nav class="card pager" aria-label="Guide sequence">
+  {%- if prev_page %}
+  <a class="prev" href="{{ prev_page.url | relative_url }}">Previous: {{ prev_page.nav }}</a>
+  {%- else %}
+  <a class="prev" href="{{ '/' | relative_url }}">Previous: Home</a>
+  {%- endif %}
+  {%- if next_page %}
+  <a class="next" href="{{ next_page.url | relative_url }}">Next: {{ next_page.nav }}</a>
+  {%- else %}
+  <a class="next" href="{{ '/' | relative_url }}">Back to Home</a>
+  {%- endif %}
+</nav>
+{%- if page.note %}
+
+<p class="note">{{ page.note | markdownify | remove: '<p>' | remove: '</p>' | strip }}</p>
+{%- endif %}
