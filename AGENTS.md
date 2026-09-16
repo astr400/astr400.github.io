@@ -24,7 +24,6 @@ Authoring happens in `.md` and `.yml` only. All HTML lives in [`_layouts/`](_lay
 | Site config and sections | [`_config.yml`](_config.yml) |
 | Landing-page link list | [`_data/resources.yml`](_data/resources.yml) |
 | Design (unchanged) | [`assets/site.css`](assets/site.css), [`assets/site.js`](assets/site.js) |
-| Frozen upstream source | [`background/`](background/) — locked, read-only |
 | Tooling | [`scripts/`](scripts/) |
 
 ## Source of truth
@@ -33,7 +32,7 @@ Skills auto-load in isolation: keep a **one-line** reminder plus a link, not a s
 
 | Layer | Owns |
 | --- | --- |
-| This file | Map, env, lock, write trees |
+| This file | Map, env, write trees |
 | [`STYLE.md`](STYLE.md) | Frontmatter contract, section and URL policy, page anatomy |
 | [`MARKDOWN.md`](MARKDOWN.md) | Markdown dialect, code fences, link form |
 | [`_config.yml`](_config.yml) | Which sections exist |
@@ -58,23 +57,3 @@ Before a pull request, run `python3 scripts/check_site.py` ([site-review skill](
 Remote: `git@github.com:astr400/astr400.github.io`. Push with the shared SSH key. `gh` (PRs) needs `gh auth login` as that same GitHub user. Never commit tokens or `GH_TOKEN`.
 
 Deployment is the Pages Actions workflow in [`.github/workflows/pages.yml`](.github/workflows/pages.yml). The Pages source must be set to **GitHub Actions**, not a branch.
-
-## Locked background
-
-If `<dir>/LOCKED.md` exists, the **entire** directory is frozen.
-
-- Do not add, edit, or delete files under that directory (including `LOCKED.md`) unless the user explicitly asks to unlock.
-- [`background/`](background/) is locked upstream source for the setup pages.
-- Read-only review against a locked tree is allowed.
-
-Template for a lock file:
-
-```markdown
----
-locked: true
----
-
-This directory is frozen after manual validation of the final draft.
-Agents must not add, edit, or delete any file under this directory
-(including this file) unless the user explicitly asks to unlock.
-```

@@ -7,8 +7,6 @@ description: Markdown dialect for the astr400.github.io repo, covering the no-ra
 
 Follow [`MARKDOWN.md`](../../../MARKDOWN.md). That file is the Markdown guide for this repo (published pages, repo docs, and skills). Page structure and frontmatter: [`STYLE.md`](../../../STYLE.md).
 
-If [`background/`](../../../background/) is locked, do not edit it (see [`AGENTS.md`](../../../AGENTS.md)).
-
 ## Highest-value rules
 
 1. **No raw HTML in content.** No `<section>`, `<div>`, `<a>`, `<pre>`, no `markdown="1"`. The layouts own all markup.
