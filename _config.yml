@@ -1,7 +1,7 @@
 title: Astrophysics Setup Guide
 description: >-
-  General astrophysics computing and environment setup guide for scientific
-  Python, Git, and reproducible analysis workflows.
+  Gateway for astrophysics computing setup: scientific Python, Git, Docker,
+  and links to MESA-in-container docs and study notebooks.
 url: https://astr400.github.io
 baseurl: ""
 lang: en
@@ -22,11 +22,14 @@ plugins:
   - jekyll-sitemap
 
 # Each topic area is a collection. Adding a section means adding an entry here
-# and a directory of Markdown; no layout or content file needs to change.
+# and a directory of Markdown; the topbar reads _data/nav.yml, not every page.
 collections:
   setup:
     output: true
     permalink: /setup/:name/
+  use:
+    output: true
+    permalink: /use/:name/
 
 defaults:
   - scope:
@@ -34,6 +37,23 @@ defaults:
       type: setup
     values:
       layout: guide
+  - scope:
+      path: ""
+      type: use
+    values:
+      layout: guide
+  - scope:
+      path: setup.md
+    values:
+      layout: hub
+      permalink: /setup/
+      hub: setup
+  - scope:
+      path: use.md
+    values:
+      layout: hub
+      permalink: /use/
+      hub: use
 
 exclude:
   - Gemfile

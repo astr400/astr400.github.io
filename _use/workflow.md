@@ -5,16 +5,17 @@ nav: Workflow
 pill: Project structure
 description: Recommended project workflow for astrophysics coding and analysis with Python, notebooks, Git, and reproducible practices.
 branch: main
-order: 6
-step: 5
+order: 3
+step: 3
 step_title: Project workflow
 summary: Keep data, notebooks, scripts, and results organized and reproducible.
 link_text: Recommended layout and cycle
 redirect_from:
+  - /setup/workflow/
   - /project_workflow.html
 ---
 
-A good project workflow keeps your data, code, notebooks, and results organized while making it easier to share and reproduce work.
+A good project workflow keeps your data, code, notebooks, and results organized while making it easier to share and reproduce work. Install Git and a Python environment first; this page is about how you use them together.
 
 ## Recommended layout
 

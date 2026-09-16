@@ -28,9 +28,16 @@ REQUIRED_KEYS = (
 
 VALID_BRANCHES = ("main", "alt")
 
-# `layout` comes from _config.yml defaults and `permalink` from the collection.
-# A page setting either is drifting from the contract.
+# `layout` comes from _config.yml defaults and `permalink` from the collection
+# or hub path defaults. A page setting either is drifting from the contract.
 FORBIDDEN_KEYS = ("permalink", "layout")
+
+HUB_FILES = (
+    ("setup.md", "/setup/"),
+    ("use.md", "/use/"),
+)
+
+HUB_URLS = frozenset({"/", "/setup/", "/use/"})
 
 # URLs the site published as hand-written HTML. Each must stay reachable.
 LEGACY_URLS = (
@@ -65,6 +72,21 @@ class Report:
             suffix = f"  {detail}" if detail else ""
             lines.append(f"  {check.ljust(width)}  {result}{suffix}")
         return "\n".join(lines)
+
+
+def _redirects(page: Page) -> list[str]:
+    entries = page.front.get("redirect_from") or []
+    if isinstance(entries, str):
+        return [entries]
+    return list(entries)
+
+
+def known_urls(pages: list[Page]) -> set[str]:
+    known = set(HUB_URLS)
+    for page in pages:
+        known.add(page.url)
+        known.update(_redirects(page))
+    return known
 
 
 def check_frontmatter(pages: list[Page], report: Report) -> None:
@@ -157,12 +179,20 @@ def check_fences(pages: list[Page], report: Report) -> None:
     report.add("no <h2 in fences", not problems, "; ".join(problems))
 
 
-def check_links(pages: list[Page], report: Report, root: Path) -> None:
-    known = {page.url for page in pages} | {"/"}
+def check_links(pages: list[Page], report: Report, root: Path, known: set[str]) -> None:
     problems = []
-    for page in pages:
-        targets = LINK_RE.findall(page.body)
-        note = page.front.get("note")
+    docs: list[tuple[str, dict, str]] = [
+        (page.rel, page.front, page.body) for page in pages
+    ]
+    for name, _url in HUB_FILES:
+        path = root / name
+        if path.exists():
+            front, body = parse_frontmatter(path.read_text(encoding="utf-8"))
+            docs.append((name, front, body))
+
+    for rel, front, body in docs:
+        targets = LINK_RE.findall(body)
+        note = front.get("note")
         if isinstance(note, str):
             targets += LINK_RE.findall(note)
         for target in targets:
@@ -170,19 +200,16 @@ def check_links(pages: list[Page], report: Report, root: Path) -> None:
                 continue
             if target.startswith("/assets/"):
                 if not (root / target.lstrip("/")).exists():
-                    problems.append(f"{page.rel}: missing asset {target}")
+                    problems.append(f"{rel}: missing asset {target}")
                 continue
-            problems.append(f"{page.rel}: unresolved internal link {target}")
+            problems.append(f"{rel}: unresolved internal link {target}")
     report.add("internal links resolve", not problems, "; ".join(problems))
 
 
 def check_redirects(pages: list[Page], report: Report) -> None:
     covered: dict[str, list[str]] = {}
     for page in pages:
-        entries = page.front.get("redirect_from") or []
-        if isinstance(entries, str):
-            entries = [entries]
-        for entry in entries:
+        for entry in _redirects(page):
             covered.setdefault(entry, []).append(page.rel)
 
     problems = []
@@ -206,19 +233,54 @@ def check_home(report: Report, root: Path) -> None:
     report.add("landing page", ok, detail)
 
 
+def check_hubs(report: Report, root: Path) -> None:
+    problems = []
+    for name, _url in HUB_FILES:
+        path = root / name
+        if not path.exists():
+            problems.append(f"{name} is missing")
+            continue
+        front, body = parse_frontmatter(path.read_text(encoding="utf-8"))
+        if not front.get("title"):
+            problems.append(f"{name}: missing title")
+        if not front.get("description"):
+            problems.append(f"{name}: missing description")
+        present = [key for key in FORBIDDEN_KEYS if key in front]
+        if present:
+            problems.append(f"{name}: must not set {', '.join(present)}")
+        prose, _ = split_fences(body)
+        if H1_RE.search(prose):
+            problems.append(f"{name}: uses '#' in the body; the h1 comes from title")
+        tags = sorted(set(HTML_TAG_RE.findall(prose)))
+        if tags:
+            problems.append(f"{name}: raw HTML {', '.join(tags)}")
+    report.add("hub pages", not problems, "; ".join(problems))
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("section", nargs="?", help="Check one section only")
     args = parser.parse_args(argv)
 
     root = REPO_ROOT
-    sections = [args.section] if args.section else section_names(root)
-    if not sections:
+    all_sections = section_names(root)
+    if not all_sections:
         print("No section directories found.", file=sys.stderr)
+        return 1
+
+    all_pages: list[Page] = []
+    for section in all_sections:
+        all_pages.extend(load_pages(section, root))
+    known = known_urls(all_pages)
+
+    sections = [args.section] if args.section else all_sections
+    if args.section and args.section not in all_sections:
+        print(f"unknown section {args.section!r}.", file=sys.stderr)
         return 1
 
     report = Report()
     check_home(report, root)
+    check_hubs(report, root)
 
     for section in sections:
         pages = load_pages(section, root)
@@ -232,8 +294,9 @@ def main(argv: list[str] | None = None) -> int:
         check_no_raw_html(pages, report)
         check_headings(pages, report)
         check_fences(pages, report)
-        check_links(pages, report, root)
-        check_redirects(pages, report)
+        check_links(pages, report, root, known)
+
+    check_redirects(all_pages, report)
 
     print(report.render())
     if report.failed:

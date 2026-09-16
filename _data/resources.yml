@@ -7,5 +7,13 @@ links:
     url: https://jupyter.org/
   - name: Git documentation
     url: https://git-scm.com/doc
+  - name: Docker documentation
+    url: https://docs.docker.com/get-started/
+  - name: MESA
+    url: https://docs.mesastar.org/
+  - name: astropy
+    url: https://docs.astropy.org/
   - name: Python Numerical Methods
     url: https://pythonnumericalmethods.studentorg.berkeley.edu
+  - name: astr400 on GitHub
+    url: https://github.com/astr400

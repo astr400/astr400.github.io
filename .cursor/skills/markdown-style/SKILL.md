@@ -9,11 +9,11 @@ Follow [`MARKDOWN.md`](../../../MARKDOWN.md). That file is the Markdown guide fo
 
 ## Highest-value rules
 
-1. **No raw HTML in content.** No `<section>`, `<div>`, `<a>`, `<pre>`, no `markdown="1"`. The layouts own all markup.
+1. **No raw HTML in content.** No `<section>`, `<div>`, `<a>`, `<pre>`, no `markdown="1"`. The layouts and includes own all markup.
 2. **No `#` in a page body.** The `<h1>` comes from the `title` frontmatter key; `##` starts a card.
 3. **Label every fence.** `bash` and `python` get a copy button; `text` does not. Use `text` for directory trees and file samples.
 4. **Write `<` and `>` literally.** Markdown needs no HTML entities.
-5. **Internal links are published paths** with a trailing slash: `[uv](/setup/uv/)`.
+5. **Internal links are published paths** with a trailing slash: `[uv](/setup/uv/)`, `[docker run](/use/docker/)`.
 
 Never put a literal `<h2` inside a code fence; [`_layouts/guide.html`](../../../_layouts/guide.html) splits rendered HTML on it.
 

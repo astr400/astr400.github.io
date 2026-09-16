@@ -2,9 +2,9 @@
 layout: default
 home: true
 title: Astrophysics setup guide
-description: General astrophysics computing and environment setup guide for scientific Python, Git, and reproducible analysis workflows.
+description: Gateway for astrophysics computing setup, Docker, and links to MESA-in-container docs and study notebooks.
 ---
 
 # Astrophysics setup guide
 
-A practical starting point for students, researchers, and hobbyists working with Python, notebooks, Git, and reproducible analysis. Follow the numbered path below, or skip to the environment manager you already use.
+A practical starting point for students, researchers, and hobbyists working with Python, notebooks, Git, Docker, and reproducible analysis. Use **Setup** to install tools, then **Use** for everyday commands. This site is the setup gateway: MESA-in-a-container usage belongs with the image docs, and study notebooks belong in their own repo when they are published.

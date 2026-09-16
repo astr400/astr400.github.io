@@ -9,17 +9,20 @@
     {% seo title=false %}
   </head>
   <body>
-    {% assign guides = site.setup | sort: "order" %}
-
     <header class="topbar">
       <a class="brand" href="{{ '/' | relative_url }}">
         <img src="{{ '/assets/logo.png' | relative_url }}" alt="" />
         <div class="brand-name">{{ site.title }}</div>
       </a>
       <nav class="nav" aria-label="Main navigation">
-        <a href="{{ '/' | relative_url }}"{% if page.home %} aria-current="page"{% endif %}>Home</a>
-        {%- for guide in guides %}
-        <a href="{{ guide.url | relative_url }}"{% if guide.url == page.url %} aria-current="page"{% endif %}>{{ guide.nav }}</a>
+        {%- for item in site.data.nav.items %}
+        {%- assign nav_current = false -%}
+        {%- if item.url == '/' -%}
+          {%- if page.home -%}{%- assign nav_current = true -%}{%- endif -%}
+        {%- elsif page.url == item.url or page.url contains item.url -%}
+          {%- assign nav_current = true -%}
+        {%- endif %}
+        <a href="{{ item.url | relative_url }}"{% if nav_current %} aria-current="page"{% endif %}>{{ item.name }}</a>
         {%- endfor %}
       </nav>
     </header>
@@ -30,26 +33,17 @@
         {{ content }}
       </section>
 
-      <div class="grid">
-        {%- for guide in guides %}
-        {%- if guide.step_title %}
-        {%- assign siblings = guides | where: "step", guide.step %}
-        <article class="card">
-          <h2><span class="step-num">{{ guide.step }}</span>{{ guide.step_title }}</h2>
-          <p>{{ guide.summary }}</p>
-          {%- if siblings.size > 1 %}
-          <ul>
-            {%- for sibling in siblings %}
-            <li><a href="{{ sibling.url | relative_url }}">{{ sibling.link_text }}</a></li>
-            {%- endfor %}
-          </ul>
-          {%- else %}
-          <p><a href="{{ guide.url | relative_url }}">{{ guide.link_text }}</a></p>
-          {%- endif %}
-        </article>
-        {%- endif %}
-        {%- endfor %}
-      </div>
+      <section class="card catalog-head">
+        <h2>Setup</h2>
+        <p>Install the toolchain, Python, editor, Git, and Docker. <a href="{{ '/setup/' | relative_url }}">Setup index</a></p>
+      </section>
+      {% include guide_grid.html collection="setup" %}
+
+      <section class="card catalog-head">
+        <h2>Use</h2>
+        <p>Activate environments, run containers, and keep a project organized. <a href="{{ '/use/' | relative_url }}">Use index</a></p>
+      </section>
+      {% include guide_grid.html collection="use" %}
 
       <section class="card resources">
         <h2>{{ site.data.resources.heading }}</h2>

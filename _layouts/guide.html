@@ -20,25 +20,26 @@ before the first heading is the intro that shares a card with the title.
 {%- endfor %}
 
 {%- comment -%}
-The pager walks the numbered `step` sequence and always targets the `main`
-branch, so the alternate uv page rejoins the path at the following step.
+The pager walks the numbered `step` sequence in this page's collection and
+always targets the `main` branch, so alternate pages rejoin the following step.
 {%- endcomment -%}
-{%- assign guides = site.setup | sort: "order" -%}
+{%- assign guides = site[page.collection] | sort: "order" -%}
 {%- assign prev_step = page.step | minus: 1 -%}
 {%- assign next_step = page.step | plus: 1 -%}
 {%- assign prev_page = guides | where: "step", prev_step | where: "branch", "main" | first -%}
-{%- assign next_page = guides | where: "step", next_step | where: "branch", "main" | first %}
+{%- assign next_page = guides | where: "step", next_step | where: "branch", "main" | first -%}
+{%- assign hub_url = '/' | append: page.collection | append: '/' %}
 
 <nav class="card pager" aria-label="Guide sequence">
   {%- if prev_page %}
   <a class="prev" href="{{ prev_page.url | relative_url }}">Previous: {{ prev_page.nav }}</a>
   {%- else %}
-  <a class="prev" href="{{ '/' | relative_url }}">Previous: Home</a>
+  <a class="prev" href="{{ hub_url | relative_url }}">Previous: {{ page.collection | capitalize }}</a>
   {%- endif %}
   {%- if next_page %}
   <a class="next" href="{{ next_page.url | relative_url }}">Next: {{ next_page.nav }}</a>
   {%- else %}
-  <a class="next" href="{{ '/' | relative_url }}">Back to Home</a>
+  <a class="next" href="{{ hub_url | relative_url }}">Back to {{ page.collection | capitalize }}</a>
   {%- endif %}
 </nav>
 {%- if page.note %}

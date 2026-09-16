@@ -6,13 +6,13 @@ The renderer is kramdown with GFM input, pinned to **Jekyll 3.10** by the `githu
 
 | Surface | Where | Typical use |
 | --- | --- | --- |
-| Published page | `_setup/*.md`, `index.md` | Reader-facing guide prose |
+| Published page | `_setup/*.md`, `_use/*.md`, `setup.md`, `use.md`, `index.md` | Reader-facing guide prose |
 | Repo doc | `README.md`, `AGENTS.md`, `STYLE.md` | Repo map and rules |
 | Skill | `.cursor/skills/*/SKILL.md` | Agent protocol |
 
 ## No raw HTML
 
-Content files contain **zero** HTML tags. This is the whole point of the refactor: the old site was hand-written HTML and drifted. All markup comes from [`_layouts/`](_layouts/).
+Content files contain **zero** HTML tags. This is the whole point of the refactor: the old site was hand-written HTML and drifted. All markup comes from [`_layouts/`](_layouts/) and [`_includes/`](_includes/).
 
 - No `<section>`, `<div>`, `<br>`, `<img>`, `<a>`, or `<pre>`.
 - No `markdown="1"` wrappers.
@@ -45,7 +45,7 @@ Never put a literal `<h2` inside a fence. [`_layouts/guide.html`](_layouts/guide
 
 - Blank line before every list. Prefer `-` over `*`.
 - Numbered lists only for ordered steps a reader performs in sequence.
-- Internal links use the published path with a trailing slash: `[uv](/setup/uv/)`. Never link a filename or a legacy `*.html` path.
+- Internal links use the published path with a trailing slash: `[uv](/setup/uv/)`, `[docker run](/use/docker/)`. Never link a filename or a legacy `*.html` path.
 - External links are plain Markdown: `[Apple](https://developer.apple.com/xcode/)`. Do not hand-write `target` or `rel`; the landing-page resource list adds those from `_data/resources.yml`.
 - Inline code for commands, paths, filenames, and package names: `` `conda activate` ``, `` `pyproject.toml` ``.
 - Bold for UI labels a reader clicks: `**Settings** → **SSH and GPG keys**`.
