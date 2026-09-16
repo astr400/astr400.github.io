@@ -23,7 +23,7 @@ Authoring happens in `.md` and `.yml` only. All HTML lives in [`_layouts/`](_lay
 | The only HTML | [`_layouts/default.html`](_layouts/default.html), [`_layouts/guide.html`](_layouts/guide.html) |
 | Site config and sections | [`_config.yml`](_config.yml) |
 | Landing-page link list | [`_data/resources.yml`](_data/resources.yml) |
-| Design (unchanged) | [`assets/site.css`](assets/site.css), [`assets/site.js`](assets/site.js) |
+| Design | [`assets/site.css`](assets/site.css), [`assets/site.js`](assets/site.js), [`assets/logo.png`](assets/logo.png), [`assets/milky-way.jpg`](assets/milky-way.jpg) |
 | Tooling | [`scripts/`](scripts/) |
 
 ## Source of truth
