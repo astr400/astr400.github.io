@@ -375,7 +375,7 @@ main {
 .hero p {
   max-width: 36rem;
   margin: 1.5rem 0 0;
-  color: var(--steel);
+  color: var(--ink);
   font-size: 1.05rem;
 }
 
