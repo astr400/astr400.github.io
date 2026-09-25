@@ -23,7 +23,7 @@ Content files contain **zero** HTML tags. This is the whole point of the refacto
 ## Headings
 
 - ATX only (`##`, `###`). No underlined Setext headings.
-- Never use `#` in a page body. The `<h1>` comes from the `title` frontmatter key.
+- Never use `#` in a page body, including `index.md`. The `<h1>` comes from the `title` frontmatter key.
 - `##` starts a new card, so treat it as a section break, not a decorative label.
 - `###` groups content inside a card, typically per platform (`### macOS`, `### Linux`, `### Windows`).
 

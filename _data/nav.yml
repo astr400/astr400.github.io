@@ -3,5 +3,7 @@ items:
     url: /
   - name: Setup
     url: /setup/
+    collection: setup
   - name: Use
     url: /use/
+    collection: use

@@ -20,5 +20,5 @@ The gateway ([`AGENTS.md`](../../../AGENTS.md) publishing map) stays on GitHub P
 
 - Migrate astr400.github.io to Read the Docs to get a version switcher.
 - Put inlists, `mesa_star` walkthroughs, or tag matrices on the gateway.
-- Duplicate the gateway night-sky theme; RTD project docs may use a default Sphinx or MkDocs theme.
+- Duplicate the gateway chassis theme; RTD project docs may use a default Sphinx or MkDocs theme.
 - Publish astro-study notebooks through this RTD project unless they are MESA tutorials that belong with the image.

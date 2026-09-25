@@ -27,7 +27,7 @@ Field meanings and the full contract: [`STYLE.md`](../../../STYLE.md). Body dial
 
 - **Appended to the end** of the section is the default: the script takes the next `order` and `step`.
 - **Inserted in the middle** means renumbering. Bump `order` and `step` on every later page in that section, then rerun the check script; duplicate `order` values in the same section fail it.
-- **An alternative path** for an existing step (what uv is to Conda, or Docker on macOS to the Docker hub) takes a unique `order`, reuses that step's `step` number, and sets `branch: alt` instead of `main`. Omit `step_title` and `summary`, since the step's primary page owns the catalog card. The pager targets only `branch: main` pages in the same collection, so the alternative rejoins the main path automatically.
+- **An alternative path** for an existing step (what uv is to Conda, or Docker on macOS to the Docker hub) takes a unique `order`, reuses that step's `step` number, and sets `branch: alt` instead of `main`. Omit `step_title` and `summary`, since the step's primary page owns the catalog row. The pager targets only `branch: main` pages in the same collection, so the alternative rejoins the main path automatically.
 
 Leaf pages never go in the topbar. That list is [`_data/nav.yml`](../../../_data/nav.yml) hubs only.
 
@@ -35,4 +35,4 @@ Leaf pages never go in the topbar. That list is [`_data/nav.yml`](../../../_data
 
 - Add a `permalink`; the collection sets it.
 - Add `redirect_from` to a genuinely new page. It is only for URLs that already existed.
-- Create a new section directory without first adding its `collections`, hub, and nav entries in [`_config.yml`](../../../_config.yml) and [`_data/nav.yml`](../../../_data/nav.yml).
+- Create a new section directory without the steps in [`STYLE.md`](../../../STYLE.md), including a `nav.yml` item with `collection: <name>`.

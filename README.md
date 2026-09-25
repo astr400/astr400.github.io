@@ -14,17 +14,17 @@ Content is Markdown. HTML lives only in [`_layouts/`](_layouts/) and [`_includes
 ├── _setup/               # install guides (Python, Git, Docker-the-tool; not MESA usage)
 ├── _use/                 # day-to-day environment use
 ├── _layouts/             # default.html, guide.html, hub.html
-├── _includes/            # shared catalog grid
-├── _data/nav.yml         # topbar hubs
+├── _includes/            # shared catalog rows
+├── _data/nav.yml         # topbar hubs; an item with collection is a home band
 ├── _data/resources.yml   # landing-page link list
 ├── assets/               # site.css, site.js, branding
 └── scripts/              # new_page.py and check_site.py
 ```
 
 Each page's frontmatter carries what used to be hand-copied HTML: the badge, the
-nav label, its position in the section, and its catalog card text. The home and
-hub grids and the prev/next pagers are generated from those fields. The topbar
-is the short hub list in `_data/nav.yml`.
+nav label, its position in the section, and its catalog row text. The home bands,
+hub lists, and prev/next pagers are generated from those fields. The topbar is
+the short hub list in `_data/nav.yml`; an item with `collection` is also a home band.
 
 ## Editing content
 

@@ -5,8 +5,8 @@ nav: Docker Windows
 pill: Containers
 description: Install WSL 2 with Ubuntu and Docker Desktop, then run docker from the Ubuntu terminal.
 branch: alt
-order: 9
-step: 5
+order: 12
+step: 7
 link_text: Docker Desktop on Windows (WSL)
 ---
 

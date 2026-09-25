@@ -22,9 +22,9 @@ description: TODO one sentence for search results and link previews.
 branch: main
 order: {order}
 step: {step}
-step_title: TODO heading of the landing-page card
-summary: TODO body text of the landing-page card.
-link_text: TODO link label inside the landing-page card
+step_title: TODO heading of the catalog row
+summary: TODO body text of the catalog row.
+link_text: TODO link label inside the catalog row
 ---
 
 TODO one intro paragraph with no heading. The layout pairs this with the title

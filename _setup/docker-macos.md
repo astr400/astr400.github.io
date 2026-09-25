@@ -5,8 +5,8 @@ nav: Docker macOS
 pill: Containers
 description: Install Docker Desktop on macOS with Homebrew or the official installer, then confirm the engine is running.
 branch: alt
-order: 7
-step: 5
+order: 10
+step: 7
 link_text: Docker Desktop on macOS
 ---
 

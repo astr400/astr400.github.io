@@ -29,6 +29,8 @@ Run it before every pull request. It uses only the Python standard library, so i
 | Raw HTML in content | The old error-prone pattern returning | Move the markup into a layout or a frontmatter key |
 | Broken internal link | Target page or asset does not exist | Use the published path with a trailing slash |
 | Missing `redirect_from` | A legacy URL would 404 | Restore the old `*.html` path on that page |
+| Nav collection | `check_site.py` reports a missing, duplicate, or unknown `collection` line in `_data/nav.yml` | Follow the adding-a-section steps in [`STYLE.md`](../../../STYLE.md): one `collection: <name>` per section |
+| Hub page | The hub file is missing, or it lacks `title` or `description`, or its body uses `#` or raw HTML | Restore `{section}.md` at the repo root per the adding-a-section steps in [`STYLE.md`](../../../STYLE.md) |
 | `<h2` inside a code fence | Would corrupt card splitting in [`_layouts/guide.html`](../../../_layouts/guide.html) | Rewrite the sample without a literal `<h2` |
 
 ## Do not

@@ -1,27 +1,26 @@
 {%- comment -%}
-One landing or hub card per `step`. The page with `step_title` owns the card;
-pages that share the step become extra links inside it. Pass the collection
+One landing or hub row per `step`. The page with `step_title` owns the row;
+pages that share the step become extra buttons beside it. Pass the collection
 name as `collection`, not the document drop (Jekyll 3 include params are
 string-safe that way).
 {%- endcomment -%}
 {%- assign guides = site[include.collection] | sort: "order" -%}
-<div class="grid">
+<ol class="steps">
   {%- for guide in guides %}
   {%- if guide.step_title %}
   {%- assign siblings = guides | where: "step", guide.step %}
-  <article class="card">
-    <h2><span class="step-num">{{ guide.step }}</span>{{ guide.step_title }}</h2>
-    <p>{{ guide.summary }}</p>
-    {%- if siblings.size > 1 %}
-    <ul>
+  <li class="step-row">
+    <span class="step-num">{% if guide.step < 10 %}0{% endif %}{{ guide.step }}</span>
+    <div class="step-body">
+      <h3>{{ guide.step_title }}</h3>
+      <p>{{ guide.summary }}</p>
+    </div>
+    <div class="step-action">
       {%- for sibling in siblings %}
-      <li><a href="{{ sibling.url | relative_url }}">{{ sibling.link_text }}</a></li>
+      <a class="btn" href="{{ sibling.url | relative_url }}">{{ sibling.link_text }}</a>
       {%- endfor %}
-    </ul>
-    {%- else %}
-    <p><a href="{{ guide.url | relative_url }}">{{ guide.link_text }}</a></p>
-    {%- endif %}
-  </article>
+    </div>
+  </li>
   {%- endif %}
   {%- endfor %}
-</div>
+</ol>

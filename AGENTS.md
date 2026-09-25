@@ -14,7 +14,7 @@ Three surfaces, three engines. Do not merge them onto Read the Docs or into this
 | MESA in a container (image tags, `mesa_star`, volumes) | the MESA Docker repo, when it exists | Sphinx with MyST, or MkDocs | Read the Docs, versioned with image tags |
 | Study guides and astropy notebooks | **astro-study** ([github.com/astr400/astro-study](https://github.com/astr400/astro-study)) | Jupyter Book / MyST | not this site until a math engine and a Markdown-versus-notebook source of truth exist |
 
-- Do **not** migrate this gateway to [readthedocs.io](https://readthedocs.io). Read the Docs is a build-and-version host for the Docker **software**, not a replacement for the guide chrome (`order` / `step` / `branch`, cards, night-sky theme).
+- Do **not** migrate this gateway to [readthedocs.io](https://readthedocs.io). Read the Docs is a build-and-version host for the Docker **software**, not a replacement for the guide chrome (`order` / `step` / `branch`, cards, chassis theme).
 - Do **not** write MESA run commands, inlists, or image-tag matrices on this site. Link out. Generic Docker **install** belongs at [`/setup/docker/`](_setup/docker.md). Generic `docker run` belongs at [`/use/docker/`](_use/docker.md).
 - When the MESA Docker repo exists: author its docs next to the Dockerfiles; enable RTD versioning aligned with image tags; link **back** to this gateway for Git, Python, and [installing Docker](/setup/docker/). Do not duplicate those setup guides in the Docker repo.
 - Study notebooks stay in **astro-study**. Do not invent a `_study` collection, and do not treat Read the Docs as a reason to publish `.ipynb` here.
@@ -37,7 +37,7 @@ Authoring happens in `.md` and `.yml` only. All HTML lives in [`_layouts/`](_lay
 | Published content | [`_setup/`](_setup/), [`_use/`](_use/), [`setup.md`](setup.md), [`use.md`](use.md), [`index.md`](index.md) |
 | The only HTML | [`_layouts/`](_layouts/), [`_includes/guide_grid.html`](_includes/guide_grid.html) |
 | Site config and sections | [`_config.yml`](_config.yml) |
-| Topbar | [`_data/nav.yml`](_data/nav.yml) |
+| Topbar and home bands | [`_data/nav.yml`](_data/nav.yml) |
 | Landing-page link list | [`_data/resources.yml`](_data/resources.yml) |
 | Design | [`assets/site.css`](assets/site.css), [`assets/site.js`](assets/site.js), [`assets/logo.png`](assets/logo.png), [`assets/milky-way.jpg`](assets/milky-way.jpg) |
 | Tooling | [`scripts/`](scripts/) |
@@ -52,7 +52,7 @@ Skills auto-load in isolation: keep a **one-line** reminder plus a link, not a s
 | [`STYLE.md`](STYLE.md) | Frontmatter contract, section and URL policy, page anatomy |
 | [`MARKDOWN.md`](MARKDOWN.md) | Markdown dialect, code fences, link form |
 | [`_config.yml`](_config.yml) | Which sections exist |
-| [`_data/nav.yml`](_data/nav.yml) | Topbar hubs |
+| [`_data/nav.yml`](_data/nav.yml) | Topbar hubs, and home bands when `collection` is set |
 | Process skills | Protocol unique to that job (not a second STYLE) |
 
 Content **pages** live under `_setup/` and `_use/`. Hub indexes are `setup.md` and `use.md` at the repo root. House **rules** and tooling may change in [`STYLE.md`](STYLE.md), [`MARKDOWN.md`](MARKDOWN.md), [`.cursor/skills/`](.cursor/skills/), [`_layouts/`](_layouts/), and [`scripts/`](scripts/) when the task is rules or tooling.
@@ -62,7 +62,7 @@ Content **pages** live under `_setup/` and `_use/`. Hub indexes are `setup.md` a
 The site is organised into sections, one Jekyll collection each. **setup** is install and configure. **use** is day-to-day environment commands. Docker-the-tool install is `/setup/docker/`. Generic `docker run` is `/use/docker/`. MESA-in-container is not a section.
 
 - Add a page: `python3 scripts/new_page.py setup <slug>` or `python3 scripts/new_page.py use <slug>` ([new-page skill](.cursor/skills/new-page/SKILL.md)).
-- Add a section: add a `collections` entry plus a `defaults` scope in `_config.yml`, a hub file, and a [`_data/nav.yml`](_data/nav.yml) item, then a directory of Markdown.
+- Add a section: add a `collections` entry plus a `defaults` scope in `_config.yml`, a hub file, and a [`_data/nav.yml`](_data/nav.yml) item with `collection`, then a directory of Markdown. Home bands follow that key; the layout does not change.
 - Study guides from **astro-study** are notebooks with LaTeX math. Publishing them needs a math engine and a decision on hand-authored Markdown versus notebooks as the source of truth (typically Jupyter Book / MyST, not Sphinx on Read the Docs unless the notebooks are MESA tutorials). Neither is set up. Do not invent a `_study` collection until that content and decision exist. The gateway may **link** to published study pages; it must not host the notebooks.
 
 ## Checks

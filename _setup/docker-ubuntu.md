@@ -5,8 +5,8 @@ nav: Docker Ubuntu
 pill: Containers
 description: Install Docker Engine from Docker's apt repository on Ubuntu, then optionally run docker without sudo.
 branch: alt
-order: 8
-step: 5
+order: 11
+step: 7
 link_text: Docker Engine on Ubuntu
 note: Adding a user to the docker group grants root-equivalent privileges. Anyone in that group can run containers that access host files. Grant it only on machines you control.
 ---

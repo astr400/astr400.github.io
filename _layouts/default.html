@@ -5,14 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% if page.home %}{{ site.title }}{% else %}{{ page.short_title | default: page.title }} — {{ site.title }}{% endif %}</title>
     <link rel="icon" href="{{ '/assets/logo.png' | relative_url }}" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600;700&family=Syne:wght@500;600;700&display=swap" />
     <link rel="stylesheet" href="{{ '/assets/site.css' | relative_url }}" />
     {% seo title=false %}
   </head>
-  <body>
+  <body{% if page.home %} class="is-home"{% endif %}>
     <header class="topbar">
       <a class="brand" href="{{ '/' | relative_url }}">
         <img src="{{ '/assets/logo.png' | relative_url }}" alt="" />
-        <div class="brand-name">{{ site.title }}</div>
+        <span class="brand-name">astr400</span>
       </a>
       <nav class="nav" aria-label="Main navigation">
         {%- for item in site.data.nav.items %}
@@ -29,29 +32,86 @@
 
     <main>
       {%- if page.home %}
+      {%- assign primary_collection = "" -%}
+      {%- assign primary_name = "" -%}
+      {%- for item in site.data.nav.items -%}
+        {%- if item.collection and primary_collection == "" -%}
+          {%- assign primary_collection = item.collection -%}
+          {%- assign primary_name = item.name -%}
+        {%- endif -%}
+      {%- endfor %}
       <section class="hero">
-        {{ content }}
+        <div class="hero-field" aria-hidden="true">
+          <div class="hero-bezel">
+            <div class="sky"></div>
+            <div class="sky-scrim"></div>
+            <svg class="survey-grid" viewBox="0 0 800 520" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <pattern id="survey-minor" width="40" height="40" patternUnits="userSpaceOnUse">
+                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(111,220,92,0.28)" stroke-width="0.6" />
+                </pattern>
+                <pattern id="survey-major" width="160" height="160" patternUnits="userSpaceOnUse">
+                  <path d="M 160 0 L 0 0 0 160" fill="none" stroke="rgba(168,255,138,0.55)" stroke-width="1.1" />
+                </pattern>
+              </defs>
+              <rect width="800" height="520" fill="url(#survey-minor)" />
+              <rect width="800" height="520" fill="url(#survey-major)" />
+            </svg>
+            <div class="scan-x"></div>
+            <div class="scan-y"></div>
+            <div class="lock-glow"></div>
+            <div class="reticle">
+              <span class="reticle-bracket reticle-nw"></span>
+              <span class="reticle-bracket reticle-ne"></span>
+              <span class="reticle-bracket reticle-sw"></span>
+              <span class="reticle-bracket reticle-se"></span>
+              <span class="reticle-ring"></span>
+              <span class="reticle-h"></span>
+              <span class="reticle-v"></span>
+              <span class="reticle-dot"></span>
+              <span class="reticle-label">Event detected</span>
+            </div>
+            <div class="hero-scanlines"></div>
+            <div class="hero-sweep"></div>
+          </div>
+        </div>
+        <div class="hero-copy">
+          <h1>{{ page.title }}</h1>
+          {{ content }}
+          {%- if primary_collection != "" %}
+          <p class="hero-actions"><a class="btn" href="#{{ primary_collection }}">Browse {{ primary_name }}</a></p>
+          {%- endif %}
+        </div>
       </section>
 
-      <section class="card catalog-head">
-        <h2>Setup</h2>
-        <p>Install the toolchain, Python, editor, Git, and Docker. <a href="{{ '/setup/' | relative_url }}">Setup index</a></p>
+      {%- for item in site.data.nav.items %}
+      {%- if item.collection %}
+      {%- assign hub = site.pages | where: "hub", item.collection | first %}
+      <section id="{{ item.collection }}" class="band">
+        <div class="band-inner">
+          <div class="band-intro">
+            <p class="kicker">{{ item.url }}</p>
+            <h2>{{ item.name }}</h2>
+            {%- if hub.description %}
+            <p>{{ hub.description }}</p>
+            {%- endif %}
+            <p><a class="btn btn-outline" href="{{ item.url | relative_url }}">{{ item.name }} index</a></p>
+          </div>
+          {% include guide_grid.html collection=item.collection %}
+        </div>
       </section>
-      {% include guide_grid.html collection="setup" %}
+      {%- endif %}
+      {%- endfor %}
 
-      <section class="card catalog-head">
-        <h2>Use</h2>
-        <p>Activate environments, run containers, and keep a project organized. <a href="{{ '/use/' | relative_url }}">Use index</a></p>
-      </section>
-      {% include guide_grid.html collection="use" %}
-
-      <section class="card resources">
-        <h2>{{ site.data.resources.heading }}</h2>
-        <ul>
-          {%- for link in site.data.resources.links %}
-          <li><a href="{{ link.url }}" target="_blank" rel="noreferrer">{{ link.name }}</a></li>
-          {%- endfor %}
-        </ul>
+      <section class="band resources">
+        <div class="band-inner resources-grid">
+          <h2>{{ site.data.resources.heading }}</h2>
+          <ul>
+            {%- for link in site.data.resources.links %}
+            <li><a href="{{ link.url }}" target="_blank" rel="noreferrer">{{ link.name }}</a></li>
+            {%- endfor %}
+          </ul>
+        </div>
       </section>
       {%- else %}
       {{ content }}
@@ -59,8 +119,17 @@
     </main>
 
     <footer>
-      <p>{{ site.title }}</p>
-      <p class="credit">Sky photograph: NASA/JPL-Caltech (Spitzer). Public domain.</p>
+      <div class="footer-inner">
+        <div>
+          <p class="footer-name">{{ site.title }}</p>
+          <p class="kicker footer-meta">astr400 · github pages</p>
+          <p class="footer-credit">Sky photograph: NASA/JPL-Caltech (Spitzer). Public domain.</p>
+        </div>
+        <nav class="footer-links" aria-label="Site">
+          <a href="https://github.com/astr400/astr400.github.io">Site source</a>
+          <a href="https://github.com/astr400">Org</a>
+        </nav>
+      </div>
     </footer>
     <script src="{{ '/assets/site.js' | relative_url }}" defer></script>
   </body>

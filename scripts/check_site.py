@@ -32,13 +32,6 @@ VALID_BRANCHES = ("main", "alt")
 # or hub path defaults. A page setting either is drifting from the contract.
 FORBIDDEN_KEYS = ("permalink", "layout")
 
-HUB_FILES = (
-    ("setup.md", "/setup/"),
-    ("use.md", "/use/"),
-)
-
-HUB_URLS = frozenset({"/", "/setup/", "/use/"})
-
 # URLs the site published as hand-written HTML. Each must stay reachable.
 LEGACY_URLS = (
     "/toolchain_setup.html",
@@ -53,6 +46,12 @@ HTML_TAG_RE = re.compile(r"</?[A-Za-z][A-Za-z0-9]*(?:\s[^>]*)?/?>")
 LINK_RE = re.compile(r"\]\((/[^)\s]*)\)")
 H1_RE = re.compile(r"^#\s", re.MULTILINE)
 TODO_RE = re.compile(r"\bTODO\b")
+COLLECTION_RE = re.compile(r"(?m)^[ \t]*collection:[ \t]*([A-Za-z0-9_-]+)[ \t]*$")
+
+
+def hub_entries(root: Path) -> list[tuple[str, str]]:
+    """Hub files implied by section directories: `setup.md` at `/setup/`."""
+    return [(f"{name}.md", f"/{name}/") for name in section_names(root)]
 
 
 class Report:
@@ -81,8 +80,9 @@ def _redirects(page: Page) -> list[str]:
     return list(entries)
 
 
-def known_urls(pages: list[Page]) -> set[str]:
-    known = set(HUB_URLS)
+def known_urls(pages: list[Page], root: Path) -> set[str]:
+    known = {"/"}
+    known.update(url for _name, url in hub_entries(root))
     for page in pages:
         known.add(page.url)
         known.update(_redirects(page))
@@ -97,8 +97,8 @@ def check_frontmatter(pages: list[Page], report: Report) -> None:
         if len(title.split()) > 5 and not page.front.get("short_title"):
             warnings.append(f"{page.rel}: long title without short_title")
         missing = [key for key in REQUIRED_KEYS if page.front.get(key) in (None, "")]
-        # An alternative path shares its step's landing card, so it owns neither
-        # step_title nor summary and is exempt from link_text's siblings.
+        # An alternative path shares its step's catalog row, so it omits
+        # step_title and summary. It still requires link_text.
         if page.front.get("branch") == "alt":
             missing = [key for key in missing if key not in ("step_title", "summary")]
         if missing:
@@ -184,7 +184,7 @@ def check_links(pages: list[Page], report: Report, root: Path, known: set[str]) 
     docs: list[tuple[str, dict, str]] = [
         (page.rel, page.front, page.body) for page in pages
     ]
-    for name, _url in HUB_FILES:
+    for name, _url in hub_entries(root):
         path = root / name
         if path.exists():
             front, body = parse_frontmatter(path.read_text(encoding="utf-8"))
@@ -227,15 +227,39 @@ def check_home(report: Report, root: Path) -> None:
     if not path.exists():
         report.add("landing page", False, "index.md is missing")
         return
-    front, _ = parse_frontmatter(path.read_text(encoding="utf-8"))
-    ok = front.get("home") is True and bool(front.get("title"))
-    detail = "" if ok else "index.md needs home: true and a title"
-    report.add("landing page", ok, detail)
+    front, body = parse_frontmatter(path.read_text(encoding="utf-8"))
+    problems = []
+    if front.get("home") is not True or not front.get("title"):
+        problems.append("index.md needs home: true and a title")
+    prose, _ = split_fences(body)
+    if H1_RE.search(prose):
+        problems.append("index.md: uses '#' in the body; the h1 comes from title")
+    report.add("landing page", not problems, "; ".join(problems))
+
+
+def check_nav(report: Report, root: Path) -> None:
+    path = root / "_data" / "nav.yml"
+    text = path.read_text(encoding="utf-8") if path.exists() else ""
+    declared = COLLECTION_RE.findall(text)
+    sections = section_names(root)
+    problems = []
+    if not path.exists():
+        problems.append("_data/nav.yml is missing")
+    for section in sections:
+        count = declared.count(section)
+        if count == 0:
+            problems.append(f"{section}: no collection line in _data/nav.yml")
+        elif count > 1:
+            problems.append(f"{section}: collection listed {count} times in _data/nav.yml")
+    for name in declared:
+        if name not in sections:
+            problems.append(f"_data/nav.yml: collection {name} has no section directory")
+    report.add("nav collections", not problems, "; ".join(problems))
 
 
 def check_hubs(report: Report, root: Path) -> None:
     problems = []
-    for name, _url in HUB_FILES:
+    for name, _url in hub_entries(root):
         path = root / name
         if not path.exists():
             problems.append(f"{name} is missing")
@@ -271,7 +295,7 @@ def main(argv: list[str] | None = None) -> int:
     all_pages: list[Page] = []
     for section in all_sections:
         all_pages.extend(load_pages(section, root))
-    known = known_urls(all_pages)
+    known = known_urls(all_pages, root)
 
     sections = [args.section] if args.section else all_sections
     if args.section and args.section not in all_sections:
@@ -281,6 +305,7 @@ def main(argv: list[str] | None = None) -> int:
     report = Report()
     check_home(report, root)
     check_hubs(report, root)
+    check_nav(report, root)
 
     for section in sections:
         pages = load_pages(section, root)

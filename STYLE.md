@@ -28,7 +28,7 @@ index.md                 # landing page, home: true
 
 Slugs are lowercase with hyphens and become the URL: `_setup/conda.md` publishes at `/setup/conda/`. Scaffold with `python3 scripts/new_page.py setup <slug>` (or `use`); never create the file by hand.
 
-The topbar lists section hubs from [`_data/nav.yml`](_data/nav.yml) (`Home`, `Setup`, `Use`). Leaf pages do not appear there. Home and each hub render a card grid from the collection.
+The topbar lists section hubs from [`_data/nav.yml`](_data/nav.yml) (`Home`, `Setup`, `Use`). Leaf pages do not appear there. A hub item with `collection` also becomes a home band. Home and each hub render a numbered list from the collection.
 
 ## Frontmatter contract
 
@@ -41,11 +41,11 @@ The topbar lists section hubs from [`_data/nav.yml`](_data/nav.yml) (`Home`, `Se
 | `nav` | yes | Pager label. One or two words. |
 | `pill` | yes | Uppercase badge above the `<h1>`. |
 | `description` | yes | `<meta name="description">`, one sentence. |
-| `order` | yes | Unique position **in this collection** (pager and hub grid sequence). |
-| `step` | yes | Numbered card on the home catalog and the section hub. Shared by alternative paths. |
-| `step_title` | step primary only | Heading of the catalog card. |
-| `summary` | step primary only | Body text of the catalog card. |
-| `link_text` | yes | Link label inside the catalog card. |
+| `order` | yes | Unique position **in this collection** (pager and hub row sequence). |
+| `step` | yes | Numbered row on the home catalog and the section hub. Shared by alternative paths. |
+| `step_title` | step primary only | Heading of the catalog row. |
+| `summary` | step primary only | Body text of the catalog row. |
+| `link_text` | yes | Link label inside the catalog row. |
 | `branch` | yes | `main` for the numbered path, `alt` for a parallel alternative. |
 | `note` | optional | Aside rendered as `p.note` below the pager. May contain Markdown links. |
 | `redirect_from` | legacy pages only | Old URLs that must keep working. |
@@ -55,17 +55,17 @@ heading someone reads on the page, `short_title` is what fits a browser tab and
 a search result, and `nav` is what fits a Next link. Set
 `short_title` whenever `title` runs past about five words.
 
-Hub files need `title` and `description` only. Their `<h1>` comes from `title`; the body is one intro paragraph with no heading.
+Hub files need `title` and `description` only. Their `<h1>` comes from `title`; the body is one intro paragraph with no heading. `description` is also the lede of that section's home band.
 
 ## `order` versus `step`
 
 These are deliberately separate, because a section can branch: Conda and uv are two ways to do the same Setup step, and Docker OS pages share the Docker step.
 
 - `order` is unique **per collection** and controls sequence inside that section. Conda is 2, uv is 3 in setup.
-- `step` is the numbered catalog card and may repeat. Conda and uv are both step 2.
+- `step` is the numbered catalog row and may repeat. Conda and uv are both step 2.
 - `branch` is `main` on the numbered path and `alt` on an alternative. The pager only ever targets `branch: main` pages in the **same collection**, so uv's Next rejoins the main path at Editor. The first and last main pages pager back to that section's hub (`/setup/` or `/use/`).
 
-One card appears on Home and on the section hub per `step`, owned by the page carrying `step_title`. Other pages sharing that step become extra links inside it.
+One row appears on Home and on the section hub per `step`, owned by the page carrying `step_title`. Other pages sharing that step become extra links inside it.
 
 ## Page anatomy
 
@@ -102,7 +102,7 @@ Number headings (`## 1. Install Git`) when the page is a sequence to follow, and
 
 ## Design
 
-The published look is a dark night-sky theme in [`assets/site.css`](assets/site.css): navy and gold on `#0b1220`, with [`assets/logo.png`](assets/logo.png) as the brand mark. A NASA/JPL-Caltech Spitzer photograph of the galactic centre ([`assets/milky-way.jpg`](assets/milky-way.jpg)) appears in the home hero and as a faint page wash. Body copy, headings, lists, and code stay on opaque `card` surfaces so the photo never carries reading text. Available classes are `card`, `hero`, `grid`, `pill`, `step-num`, `pager`, `note`, `resources`, and `catalog-head`; the layouts apply them. Content files never reference a class.
+The published look is a dark chassis theme in [`assets/site.css`](assets/site.css): phosphor green and filament amber on `#080b08`, with [`assets/logo.png`](assets/logo.png) as a small mark beside the wordmark. A NASA/JPL-Caltech Spitzer photograph of the galactic centre ([`assets/milky-way.jpg`](assets/milky-way.jpg)) is the page wash. The home hero lays a survey grid over that photo: an x-line and a y-line sweep, then a reticle locks and reads EVENT DETECTED. Each sweep picks a new point in the browser, uniform across x and Gaussian about the vertical centre. Scanlines and a slow CRT sweep sit on top. That motion holds on the locked reticle under `prefers-reduced-motion`. Display type (Syne) carries headlines, Instrument Sans carries body copy, and IBM Plex Mono carries kickers, buttons, and step numbers. Guide prose stays on opaque `card` surfaces so the photograph never carries reading text. Available classes are `card`, `hero`, `band`, `steps`, `step-num`, `pill`, `pager`, `note`, `resources`, and `btn`; the layouts apply them. Content files never reference a class.
 
 Fence directory trees and config samples as `text` so they get no copy button. Fence runnable commands as `bash` so they do.
 
@@ -113,9 +113,9 @@ GitHub Pages forces the Rouge highlighter on, so a fenced block builds as a `.la
 1. Add a `collections` entry with `output: true` and `permalink: /<name>/:name/` in [`_config.yml`](_config.yml).
 2. Add a `defaults` scope for that collection setting `layout: guide`.
 3. Add a hub Markdown file at the repo root and a path-scoped default that sets `layout: hub`, `permalink: /<name>/`, and `hub: <name>`.
-4. Add the hub to [`_data/nav.yml`](_data/nav.yml).
+4. Add a hub item to [`_data/nav.yml`](_data/nav.yml) with `name`, `url`, and `collection` set to the section name. Home renders one band per item that has `collection`, using that hub page's `description` as the lede.
 5. Create the directory and scaffold pages with `scripts/new_page.py`.
 
-The topbar does not list leaf pages, so adding pages never requires a layout edit.
+The topbar lists hubs only, and the home bands follow `collection`, so adding a section or a page never requires a layout edit.
 
 Keep generic Docker **install** in `_setup/` and generic `docker run` in `_use/`. Do not add a `_mesa` collection or MESA runbooks; those docs belong in the MESA Docker repo on Read the Docs ([publishing map](AGENTS.md)). Do not add `_study` until the math and source-of-truth decision in that map is made.
